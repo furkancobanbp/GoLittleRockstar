@@ -18,8 +18,7 @@ namespace GoLittleRockstar.Functions
     {
         public String Url = "https://api.epias.com.tr/epias/exchange/transparency";
         HttpClient httpClient = new HttpClient();
-        public String evdsApiKey = "";
-        public String WeatherApiKey = "";
+        
         public String WeatherApiBaseUrl = "http://api.weatherapi.com/v1";
 
         enum period
@@ -175,11 +174,13 @@ namespace GoLittleRockstar.Functions
             request.AddParameter("dt", baslangicTarihi);
             request.AddParameter("end_dt", bitisTarihi);
             request.AddParameter("q", "Ankara");
+            request.AddParameter("lang", "TR");
+
 
             var Response = client.Execute(request).Content;
         }
 
-        public void TahminHavaDurumu(DateTime bitTar)
+        public void TahminHavaDurumu(DateTime bitTar, String Sehir)
         {            
             String bitisTarihi = bitTar.ToString("yyyy-MM-dd");
 
@@ -188,7 +189,8 @@ namespace GoLittleRockstar.Functions
 
             request.AddParameter("key", WeatherApiKey);
             request.AddParameter("dt", bitisTarihi);
-            request.AddParameter("q", "Antalya");
+            request.AddParameter("q", Sehir);
+            request.AddParameter("lang", "tr");
 
             var Response = client.Execute(request).Content;
         }
