@@ -18,7 +18,10 @@ namespace GoLittleRockstar.Functions
     {
         public String Url = "https://api.epias.com.tr/epias/exchange/transparency";
         HttpClient httpClient = new HttpClient();
-        public String evdsApiKey = "wo1MW8BA1X";
+        public String evdsApiKey = "";
+        public String WeatherApiKey = "";
+        public String WeatherApiBaseUrl = "http://api.weatherapi.com/v1";
+
         enum period
         {
             DAILY,
@@ -160,5 +163,34 @@ namespace GoLittleRockstar.Functions
             return jsonModel;
         }
 
+        public void GecmisHavaDurumu(DateTime basTar, DateTime bitTar)
+        {
+            String baslangicTarihi = basTar.ToString("yyyy-MM-dd");
+            String bitisTarihi = bitTar.ToString("yyyy-MM-dd");
+
+            RestClient client = new RestClient(WeatherApiBaseUrl);
+            var request = new RestRequest("/history.json");
+
+            request.AddParameter("key", WeatherApiKey);
+            request.AddParameter("dt", baslangicTarihi);
+            request.AddParameter("end_dt", bitisTarihi);
+            request.AddParameter("q", "Ankara");
+
+            var Response = client.Execute(request).Content;
+        }
+
+        public void TahminHavaDurumu(DateTime bitTar)
+        {            
+            String bitisTarihi = bitTar.ToString("yyyy-MM-dd");
+
+            RestClient client = new RestClient(WeatherApiBaseUrl);
+            var request = new RestRequest("/forecast.json");
+
+            request.AddParameter("key", WeatherApiKey);
+            request.AddParameter("dt", bitisTarihi);
+            request.AddParameter("q", "Antalya");
+
+            var Response = client.Execute(request).Content;
+        }
     }
 }

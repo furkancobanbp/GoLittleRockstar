@@ -91,6 +91,7 @@
             this.groupBox7 = new System.Windows.Forms.GroupBox();
             this.gridGRFOrt = new System.Windows.Forms.DataGridView();
             this.Column27 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.button1 = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             this.groupBox9.SuspendLayout();
             this.groupBox6.SuspendLayout();
@@ -129,6 +130,7 @@
             // 
             // groupBox9
             // 
+            this.groupBox9.Controls.Add(this.button1);
             this.groupBox9.Controls.Add(this.btnGrfOrtalama);
             this.groupBox9.Controls.Add(this.btnDogalgazListele);
             this.groupBox9.Dock = System.Windows.Forms.DockStyle.Top;
@@ -755,20 +757,29 @@
             this.Column27.Name = "Column27";
             this.Column27.ReadOnly = true;
             // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(24, 80);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(75, 23);
+            this.button1.TabIndex = 2;
+            this.button1.Text = "button1";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1221, 668);
             this.Controls.Add(this.groupBox8);
             this.Controls.Add(this.groupBox7);
             this.Controls.Add(this.groupBox5);
             this.Controls.Add(this.groupBox4);
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.groupBox2);
-            this.Controls.Add(this.panel1);            
+            this.Controls.Add(this.panel1);
             this.Name = "Form1";
-            this.Text = "Form1";
+            this.Size = new System.Drawing.Size(1221, 668);
             this.Load += new System.EventHandler(this.Form1_Load);
             this.panel1.ResumeLayout(false);
             this.groupBox9.ResumeLayout(false);
@@ -856,5 +867,6 @@
         private GroupBox groupBox7;
         private DataGridView gridGRFOrt;
         private DataGridViewTextBoxColumn Column27;
+        private Button button1;
     }
 }

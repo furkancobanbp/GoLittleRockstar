@@ -268,6 +268,11 @@ namespace GoLittleRockstar
             }
             gridGRFOrt.DataSource = ort;
         }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            api.TahminHavaDurumu(dateBitisTarihi.Value);
+        }
     }
 
 }
