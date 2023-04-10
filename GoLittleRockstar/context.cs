@@ -22,12 +22,14 @@ namespace GoLittleRockstar
         public DbSet<clsSirket> tblSirket { get; set; }
         public DbSet<clsKurumSirket> kurumSirket { get; set; }
         public DbSet<MyForecastData> tblForecastWeatherData { get; set; }
-        public DbSet<MyForecastData> tblHistoricWeatherData { get; set; }
+        public DbSet<MyHistoricData> tblHistoricWeatherData { get; set; }
         public DbSet<clsAna> anaSet { get; set; }
 
 
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
             => optionsBuilder.UseNpgsql("Host=localhost;Database=CeliklerDb;Username=postgres;Password=Fc123456*");
+
+      
     }
 }

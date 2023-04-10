@@ -288,7 +288,7 @@ namespace GoLittleRockstar
             }
             foreach(Root i in RootData)
             {
-                ForecastData.AddRange(api.ForecastData(i));
+                ForecastData.AddRange(api.WeatherData<MyForecastData>(i));
             }
             
 
@@ -305,7 +305,7 @@ namespace GoLittleRockstar
         private void button2_Click(object sender, EventArgs e)
         {
             List<Root> RootData = new List<Root>();
-            List<MyForecastData> ForecastData = new List<MyForecastData>();
+            List<MyHistoricData> historicDatas = new List<MyHistoricData>();
 
             using (var contex = new context())
             {
@@ -320,16 +320,15 @@ namespace GoLittleRockstar
             }
             foreach (Root i in RootData)
             {
-                ForecastData.AddRange(api.ForecastData(i));
+                historicDatas.AddRange(api.WeatherData<MyHistoricData>(i));
             }
 
             using (var contex = new context())
             {
-                foreach (MyForecastData i in ForecastData)
+                foreach (MyHistoricData i in historicDatas)
                 {
                     contex.tblHistoricWeatherData.AddRange(i);
                     contex.SaveChanges();
-                    contex.ChangeTracker.Clear();
                 }
 
             }

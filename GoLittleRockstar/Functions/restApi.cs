@@ -12,13 +12,14 @@ using System.Globalization;
 using Newtonsoft.Json.Converters;
 using GoLittleRockstar.Model;
 
+
 namespace GoLittleRockstar.Functions
 {
     public class restApi
     {
         public String Url = "https://api.epias.com.tr/epias/exchange/transparency";
         HttpClient httpClient = new HttpClient();
-        
+       
         public String WeatherApiBaseUrl = "http://api.weatherapi.com/v1";
 
         enum period
@@ -202,16 +203,15 @@ namespace GoLittleRockstar.Functions
 
             return myDeserializedClass;
         }
-
-        public List<MyForecastData> ForecastData(Root RawData)
+        public List<T> WeatherData<T>(Root RawData) where T : IWeatherData, new()
         {
-            List<MyForecastData> dataList = new List<MyForecastData>();
+            List<T> dataList = new List<T>();
 
             foreach (Forecastday i in RawData.forecast.forecastday)
             {
                 foreach (Hour j in i.hour)
                 {
-                    MyForecastData data = new MyForecastData();
+                    T data = new T();
 
                     data.city = RawData.location.name;
                     data.time = Convert.ToDateTime(j.time);
@@ -251,5 +251,6 @@ namespace GoLittleRockstar.Functions
 
             return dataList;
         }
+
     }
 }
