@@ -30,6 +30,7 @@
         {
             this.panel1 = new System.Windows.Forms.Panel();
             this.groupBox9 = new System.Windows.Forms.GroupBox();
+            this.button1 = new System.Windows.Forms.Button();
             this.btnGrfOrtalama = new System.Windows.Forms.Button();
             this.btnDogalgazListele = new System.Windows.Forms.Button();
             this.groupBox6 = new System.Windows.Forms.GroupBox();
@@ -91,7 +92,7 @@
             this.groupBox7 = new System.Windows.Forms.GroupBox();
             this.gridGRFOrt = new System.Windows.Forms.DataGridView();
             this.Column27 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.button1 = new System.Windows.Forms.Button();
+            this.button2 = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             this.groupBox9.SuspendLayout();
             this.groupBox6.SuspendLayout();
@@ -130,6 +131,7 @@
             // 
             // groupBox9
             // 
+            this.groupBox9.Controls.Add(this.button2);
             this.groupBox9.Controls.Add(this.button1);
             this.groupBox9.Controls.Add(this.btnGrfOrtalama);
             this.groupBox9.Controls.Add(this.btnDogalgazListele);
@@ -140,6 +142,16 @@
             this.groupBox9.TabIndex = 8;
             this.groupBox9.TabStop = false;
             this.groupBox9.Text = "Doğalgaz Tarife Hesap";
+            // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(24, 80);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(75, 23);
+            this.button1.TabIndex = 2;
+            this.button1.Text = "button1";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // btnGrfOrtalama
             // 
@@ -757,15 +769,15 @@
             this.Column27.Name = "Column27";
             this.Column27.ReadOnly = true;
             // 
-            // button1
+            // button2
             // 
-            this.button1.Location = new System.Drawing.Point(24, 80);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
-            this.button1.TabIndex = 2;
-            this.button1.Text = "button1";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.button2.Location = new System.Drawing.Point(45, 114);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(75, 23);
+            this.button2.TabIndex = 3;
+            this.button2.Text = "button2";
+            this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
             // Form1
             // 
@@ -868,5 +880,6 @@
         private DataGridView gridGRFOrt;
         private DataGridViewTextBoxColumn Column27;
         private Button button1;
+        private Button button2;
     }
 }

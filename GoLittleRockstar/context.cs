@@ -21,6 +21,9 @@ namespace GoLittleRockstar
         public DbSet<clsKurum> tblKurumlar { get; set; }
         public DbSet<clsSirket> tblSirket { get; set; }
         public DbSet<clsKurumSirket> kurumSirket { get; set; }
+        public DbSet<MyForecastData> tblForecastWeatherData { get; set; }
+        public DbSet<MyForecastData> tblHistoricWeatherData { get; set; }
+        public DbSet<clsAna> anaSet { get; set; }
 
 
 

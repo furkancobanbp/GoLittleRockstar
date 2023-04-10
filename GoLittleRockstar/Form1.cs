@@ -14,6 +14,7 @@ namespace GoLittleRockstar
         List<clsDgpTalimatOzet> dgpList = new List<clsDgpTalimatOzet>();
         List<clsGrf> grfList = new List<clsGrf>();
         List<clsDolarKuru> dolarList = new List<clsDolarKuru>();
+        List<clsAna> sehirListesi = new List<clsAna>();
         public Form1()
         {
             InitializeComponent();
@@ -271,7 +272,67 @@ namespace GoLittleRockstar
 
         private void button1_Click(object sender, EventArgs e)
         {
-            api.TahminHavaDurumu(dateBitisTarihi.Value);
+            List<Root> RootData = new List<Root>();
+            List<MyForecastData> ForecastData = new List<MyForecastData>();
+
+            using (var contex = new context())
+            {
+                var Sql = "select id, \"SehirAdi\" name from \"tblSehir\"";
+                var Liste = contex.anaSet.FromSqlRaw(Sql).ToList();
+                sehirListesi.AddRange(Liste);
+            }
+
+            foreach (clsAna i in sehirListesi)
+            {
+                RootData.Add(api.TahminHavaDurumu(dateBitisTarihi.Value, i.name));               
+            }
+            foreach(Root i in RootData)
+            {
+                ForecastData.AddRange(api.ForecastData(i));
+            }
+            
+
+            using (var contex = new context())
+            {
+                foreach (MyForecastData i in ForecastData)
+                {
+                    contex.tblForecastWeatherData.AddRange(i);
+                    contex.SaveChanges();
+                    contex.ChangeTracker.Clear();
+                }                
+            }
+        }
+        private void button2_Click(object sender, EventArgs e)
+        {
+            List<Root> RootData = new List<Root>();
+            List<MyForecastData> ForecastData = new List<MyForecastData>();
+
+            using (var contex = new context())
+            {
+                var Sql = "select id, \"SehirAdi\" name from \"tblSehir\"";
+                var Liste = contex.anaSet.FromSqlRaw(Sql).ToList();
+                sehirListesi.AddRange(Liste);
+            }
+
+            foreach (clsAna i in sehirListesi)
+            {
+                RootData.Add(api.GecmisHavaDurumu(dateBaslangicTarihi.Value, dateBitisTarihi.Value, i.name));
+            }
+            foreach (Root i in RootData)
+            {
+                ForecastData.AddRange(api.ForecastData(i));
+            }
+
+            using (var contex = new context())
+            {
+                foreach (MyForecastData i in ForecastData)
+                {
+                    contex.tblHistoricWeatherData.AddRange(i);
+                    contex.SaveChanges();
+                    contex.ChangeTracker.Clear();
+                }
+
+            }
         }
     }
 
