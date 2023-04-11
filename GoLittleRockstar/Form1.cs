@@ -272,40 +272,17 @@ namespace GoLittleRockstar
 
         private void button1_Click(object sender, EventArgs e)
         {
-            List<Root> RootData = new List<Root>();
-            List<MyForecastData> ForecastData = new List<MyForecastData>();
-
-            using (var contex = new context())
-            {
-                var Sql = "select id, \"SehirAdi\" name from \"tblSehir\"";
-                var Liste = contex.anaSet.FromSqlRaw(Sql).ToList();
-                sehirListesi.AddRange(Liste);
-            }
-
-            foreach (clsAna i in sehirListesi)
-            {
-                RootData.Add(api.TahminHavaDurumu(dateBitisTarihi.Value, i.name));               
-            }
-            foreach(Root i in RootData)
-            {
-                ForecastData.AddRange(api.WeatherData<MyForecastData>(i));
-            }
-            
-
-            using (var contex = new context())
-            {
-                foreach (MyForecastData i in ForecastData)
-                {
-                    contex.tblForecastWeatherData.AddRange(i);
-                    contex.SaveChanges();
-                    contex.ChangeTracker.Clear();
-                }                
-            }
+            GetData(dateBaslangicTarihi.Value, dateBitisTarihi.Value, "forecast");
         }
         private void button2_Click(object sender, EventArgs e)
         {
+            GetData(dateBaslangicTarihi.Value, dateBitisTarihi.Value, "historic");
+        }
+        private async void GetData(DateTime dateBaslangicTarihi, DateTime dateBitisTarihi, string Type)
+        {
             List<Root> RootData = new List<Root>();
-            List<MyHistoricData> historicDatas = new List<MyHistoricData>();
+            List<object> Data = new List<object>();
+
 
             using (var contex = new context())
             {
@@ -316,22 +293,47 @@ namespace GoLittleRockstar
 
             foreach (clsAna i in sehirListesi)
             {
-                RootData.Add(api.GecmisHavaDurumu(dateBaslangicTarihi.Value, dateBitisTarihi.Value, i.name));
+                if (Type == "forecast")
+                {
+                    RootData.Add(api.TahminHavaDurumu(dateBitisTarihi, i.name));
+                }
+                else if (Type == "historic")
+                {
+                    RootData.Add(api.GecmisHavaDurumu(dateBaslangicTarihi, dateBitisTarihi, i.name));
+                }
             }
+
             foreach (Root i in RootData)
             {
-                historicDatas.AddRange(api.WeatherData<MyHistoricData>(i));
+                if (Type == "forecast")
+                {
+                    Data.AddRange(api.WeatherData<MyForecastData>(i));
+                }
+                else if (Type == "historic")
+                {
+                    Data.AddRange(api.WeatherData<MyHistoricData>(i));
+                }
             }
 
             using (var contex = new context())
             {
-                foreach (MyHistoricData i in historicDatas)
+                foreach (object i in Data)
                 {
-                    contex.tblHistoricWeatherData.AddRange(i);
-                    contex.SaveChanges();
+                    if (Type == "forecast")
+                    {
+                        await contex.tblForecastWeatherData.AddRangeAsync((MyForecastData)i);
+                    }
+                    else if (Type == "historic")
+                    {
+                        await contex.tblHistoricWeatherData.AddRangeAsync((MyHistoricData)i);
+                    }
+                    await contex.SaveChangesAsync();
+                    contex.ChangeTracker.Clear();  
                 }
 
+                MessageBox.Show("Ýþlem Tamam");
             }
+
         }
     }
 
