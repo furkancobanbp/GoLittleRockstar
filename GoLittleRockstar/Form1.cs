@@ -287,7 +287,7 @@ namespace GoLittleRockstar
             using (var contex = new context())
             {
                 var Sql = "select id, \"SehirAdi\" name from \"tblSehir\"";
-                var Liste = contex.anaSet.FromSqlRaw(Sql).ToList();
+                var Liste = await contex.anaSet.FromSqlRaw(Sql).ToListAsync();
                 sehirListesi.AddRange(Liste);
             }
 
@@ -328,7 +328,7 @@ namespace GoLittleRockstar
                         await contex.tblHistoricWeatherData.AddRangeAsync((MyHistoricData)i);
                     }
                     await contex.SaveChangesAsync();
-                    contex.ChangeTracker.Clear();  
+                    contex.ChangeTracker.Clear();
                 }
 
                 MessageBox.Show("Ýþlem Tamam");

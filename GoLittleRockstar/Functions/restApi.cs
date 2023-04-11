@@ -19,8 +19,8 @@ namespace GoLittleRockstar.Functions
     {
         public String Url = "https://api.epias.com.tr/epias/exchange/transparency";
         HttpClient httpClient = new HttpClient();
-        
 
+       
         public String WeatherApiBaseUrl = "http://api.weatherapi.com/v1";
 
         enum period

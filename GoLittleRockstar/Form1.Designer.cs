@@ -30,6 +30,7 @@
         {
             this.panel1 = new System.Windows.Forms.Panel();
             this.groupBox9 = new System.Windows.Forms.GroupBox();
+            this.button2 = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
             this.btnGrfOrtalama = new System.Windows.Forms.Button();
             this.btnDogalgazListele = new System.Windows.Forms.Button();
@@ -92,7 +93,7 @@
             this.groupBox7 = new System.Windows.Forms.GroupBox();
             this.gridGRFOrt = new System.Windows.Forms.DataGridView();
             this.Column27 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.button2 = new System.Windows.Forms.Button();
+            this.groupBox10 = new System.Windows.Forms.GroupBox();
             this.panel1.SuspendLayout();
             this.groupBox9.SuspendLayout();
             this.groupBox6.SuspendLayout();
@@ -109,6 +110,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.gridDogalgazTarife)).BeginInit();
             this.groupBox7.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gridGRFOrt)).BeginInit();
+            this.groupBox10.SuspendLayout();
             this.SuspendLayout();
             // 
             // panel1
@@ -131,8 +133,7 @@
             // 
             // groupBox9
             // 
-            this.groupBox9.Controls.Add(this.button2);
-            this.groupBox9.Controls.Add(this.button1);
+            this.groupBox9.Controls.Add(this.groupBox10);
             this.groupBox9.Controls.Add(this.btnGrfOrtalama);
             this.groupBox9.Controls.Add(this.btnDogalgazListele);
             this.groupBox9.Dock = System.Windows.Forms.DockStyle.Top;
@@ -143,13 +144,23 @@
             this.groupBox9.TabStop = false;
             this.groupBox9.Text = "Doğalgaz Tarife Hesap";
             // 
+            // button2
+            // 
+            this.button2.Location = new System.Drawing.Point(0, 22);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(163, 23);
+            this.button2.TabIndex = 3;
+            this.button2.Text = "Geçmiş Hava Durumu Çek";
+            this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
+            // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(24, 80);
+            this.button1.Location = new System.Drawing.Point(-3, 51);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
+            this.button1.Size = new System.Drawing.Size(166, 23);
             this.button1.TabIndex = 2;
-            this.button1.Text = "button1";
+            this.button1.Text = "Hava Durumu Tahmini Çek";
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
@@ -769,15 +780,17 @@
             this.Column27.Name = "Column27";
             this.Column27.ReadOnly = true;
             // 
-            // button2
+            // groupBox10
             // 
-            this.button2.Location = new System.Drawing.Point(45, 114);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(75, 23);
-            this.button2.TabIndex = 3;
-            this.button2.Text = "button2";
-            this.button2.UseVisualStyleBackColor = true;
-            this.button2.Click += new System.EventHandler(this.button2_Click);
+            this.groupBox10.Controls.Add(this.button1);
+            this.groupBox10.Controls.Add(this.button2);
+            this.groupBox10.Dock = System.Windows.Forms.DockStyle.Top;
+            this.groupBox10.Location = new System.Drawing.Point(3, 65);
+            this.groupBox10.Name = "groupBox10";
+            this.groupBox10.Size = new System.Drawing.Size(163, 93);
+            this.groupBox10.TabIndex = 2;
+            this.groupBox10.TabStop = false;
+            this.groupBox10.Text = "Hava Durumu Veri Çekme";
             // 
             // Form1
             // 
@@ -810,6 +823,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.gridDogalgazTarife)).EndInit();
             this.groupBox7.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.gridGRFOrt)).EndInit();
+            this.groupBox10.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -881,5 +895,6 @@
         private DataGridViewTextBoxColumn Column27;
         private Button button1;
         private Button button2;
+        private GroupBox groupBox10;
     }
 }
