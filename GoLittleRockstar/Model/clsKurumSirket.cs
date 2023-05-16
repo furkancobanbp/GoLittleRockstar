@@ -24,5 +24,11 @@ namespace GoLittleRockstar.Model
         public int sirket_id { get; set; }
         public String sirketAdi { get; set; }
     }
-    
+    [PrimaryKey(nameof(banka_id))]
+    public class clsBanka
+    {
+        public int banka_id { get; set; }
+        public String BankaAdi { get; set; }
+    }
+
 }

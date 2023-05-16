@@ -20,8 +20,10 @@ namespace GoLittleRockstar.Functions
         public String Url = "https://api.epias.com.tr/epias/exchange/transparency";
         HttpClient httpClient = new HttpClient();
 
-       
+        public String evdsApiKey = "wo1MW8BA1X";
+        public String WeatherApiKey = "378040fe1f0f427184983253230604";
         public String WeatherApiBaseUrl = "http://api.weatherapi.com/v1";
+        public String alphaVantageApiKey = "BBCEQDGLJVET843A";
 
         enum period
         {
@@ -214,7 +216,15 @@ namespace GoLittleRockstar.Functions
                 {
                     T data = new T();
 
-                    data.city = RawData.location.name;
+
+                    if (!(RawData.location.name == "Van Ferit Melen Airport"))
+                    {
+                        data.city = RawData.location.name;
+                    }
+                    else
+                    {
+                        data.city = "Van";
+                    }
                     data.time = Convert.ToDateTime(j.time);
                     data.uv = j.uv;
                     data.cloud = j.cloud;
@@ -253,5 +263,7 @@ namespace GoLittleRockstar.Functions
             return dataList;
         }
 
+
     }
+
 }

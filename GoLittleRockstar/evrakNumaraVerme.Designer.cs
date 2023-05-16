@@ -49,8 +49,29 @@
             this.splitter6 = new System.Windows.Forms.Splitter();
             this.txtUnvan = new System.Windows.Forms.TextBox();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.btnBankaKaydet = new System.Windows.Forms.Button();
+            this.splitter14 = new System.Windows.Forms.Splitter();
+            this.txtBankaUnvani = new System.Windows.Forms.TextBox();
+            this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.btnTeminatKaydet = new System.Windows.Forms.Button();
+            this.txtTeminatTutari = new System.Windows.Forms.TextBox();
+            this.splitter15 = new System.Windows.Forms.Splitter();
+            this.cmbBankaBilgisi = new System.Windows.Forms.ComboBox();
+            this.splitter12 = new System.Windows.Forms.Splitter();
+            this.txtMektupNumarasi = new System.Windows.Forms.TextBox();
+            this.splitter11 = new System.Windows.Forms.Splitter();
+            this.cmbTeminatTipi = new System.Windows.Forms.ComboBox();
+            this.splitter10 = new System.Windows.Forms.Splitter();
+            this.cmbTeminatCikaranKurum = new System.Windows.Forms.ComboBox();
+            this.splitter9 = new System.Windows.Forms.Splitter();
+            this.cmbTeminatVerilenKurum = new System.Windows.Forms.ComboBox();
+            this.splitter8 = new System.Windows.Forms.Splitter();
+            this.dateTeminatTarihi = new System.Windows.Forms.DateTimePicker();
+            this.splitter16 = new System.Windows.Forms.Splitter();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
+            this.groupBox3.SuspendLayout();
+            this.groupBox4.SuspendLayout();
             this.SuspendLayout();
             // 
             // groupBox1
@@ -278,18 +299,225 @@
             // 
             // groupBox3
             // 
+            this.groupBox3.Controls.Add(this.btnBankaKaydet);
+            this.groupBox3.Controls.Add(this.splitter14);
+            this.groupBox3.Controls.Add(this.txtBankaUnvani);
             this.groupBox3.Dock = System.Windows.Forms.DockStyle.Top;
             this.groupBox3.Location = new System.Drawing.Point(0, 136);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(1503, 81);
+            this.groupBox3.Size = new System.Drawing.Size(1503, 48);
             this.groupBox3.TabIndex = 2;
             this.groupBox3.TabStop = false;
-            this.groupBox3.Text = "Evrak Listeleme";
+            this.groupBox3.Text = "Banka Ekleme";
+            // 
+            // btnBankaKaydet
+            // 
+            this.btnBankaKaydet.Dock = System.Windows.Forms.DockStyle.Left;
+            this.btnBankaKaydet.Location = new System.Drawing.Point(167, 19);
+            this.btnBankaKaydet.Name = "btnBankaKaydet";
+            this.btnBankaKaydet.Size = new System.Drawing.Size(132, 26);
+            this.btnBankaKaydet.TabIndex = 6;
+            this.btnBankaKaydet.Text = "Kaydet.";
+            this.btnBankaKaydet.UseVisualStyleBackColor = true;
+            this.btnBankaKaydet.Click += new System.EventHandler(this.btnBankaKaydet_Click);
+            // 
+            // splitter14
+            // 
+            this.splitter14.BackColor = System.Drawing.Color.White;
+            this.splitter14.Location = new System.Drawing.Point(157, 19);
+            this.splitter14.Name = "splitter14";
+            this.splitter14.Size = new System.Drawing.Size(10, 26);
+            this.splitter14.TabIndex = 3;
+            this.splitter14.TabStop = false;
+            // 
+            // txtBankaUnvani
+            // 
+            this.txtBankaUnvani.Dock = System.Windows.Forms.DockStyle.Left;
+            this.txtBankaUnvani.Location = new System.Drawing.Point(3, 19);
+            this.txtBankaUnvani.Name = "txtBankaUnvani";
+            this.txtBankaUnvani.Size = new System.Drawing.Size(154, 23);
+            this.txtBankaUnvani.TabIndex = 0;
+            this.txtBankaUnvani.Text = "Banka Unvanı Giriniz";
+            // 
+            // groupBox4
+            // 
+            this.groupBox4.Controls.Add(this.btnTeminatKaydet);
+            this.groupBox4.Controls.Add(this.splitter16);
+            this.groupBox4.Controls.Add(this.txtTeminatTutari);
+            this.groupBox4.Controls.Add(this.splitter15);
+            this.groupBox4.Controls.Add(this.cmbBankaBilgisi);
+            this.groupBox4.Controls.Add(this.splitter12);
+            this.groupBox4.Controls.Add(this.txtMektupNumarasi);
+            this.groupBox4.Controls.Add(this.splitter11);
+            this.groupBox4.Controls.Add(this.cmbTeminatTipi);
+            this.groupBox4.Controls.Add(this.splitter10);
+            this.groupBox4.Controls.Add(this.cmbTeminatCikaranKurum);
+            this.groupBox4.Controls.Add(this.splitter9);
+            this.groupBox4.Controls.Add(this.cmbTeminatVerilenKurum);
+            this.groupBox4.Controls.Add(this.splitter8);
+            this.groupBox4.Controls.Add(this.dateTeminatTarihi);
+            this.groupBox4.Dock = System.Windows.Forms.DockStyle.Top;
+            this.groupBox4.Location = new System.Drawing.Point(0, 184);
+            this.groupBox4.Name = "groupBox4";
+            this.groupBox4.Size = new System.Drawing.Size(1503, 47);
+            this.groupBox4.TabIndex = 3;
+            this.groupBox4.TabStop = false;
+            this.groupBox4.Text = "Teminat Bilgisi Kaydetme";
+            // 
+            // btnTeminatKaydet
+            // 
+            this.btnTeminatKaydet.Dock = System.Windows.Forms.DockStyle.Left;
+            this.btnTeminatKaydet.Location = new System.Drawing.Point(1086, 19);
+            this.btnTeminatKaydet.Name = "btnTeminatKaydet";
+            this.btnTeminatKaydet.Size = new System.Drawing.Size(149, 25);
+            this.btnTeminatKaydet.TabIndex = 12;
+            this.btnTeminatKaydet.Text = "Teminat Bilgisi Kaydet";
+            this.btnTeminatKaydet.UseVisualStyleBackColor = true;
+            this.btnTeminatKaydet.Click += new System.EventHandler(this.btnTeminatKaydet_Click);
+            // 
+            // txtTeminatTutari
+            // 
+            this.txtTeminatTutari.Dock = System.Windows.Forms.DockStyle.Left;
+            this.txtTeminatTutari.Location = new System.Drawing.Point(942, 19);
+            this.txtTeminatTutari.Name = "txtTeminatTutari";
+            this.txtTeminatTutari.Size = new System.Drawing.Size(134, 23);
+            this.txtTeminatTutari.TabIndex = 10;
+            this.txtTeminatTutari.Text = "Teminat Tutarı";
+            // 
+            // splitter15
+            // 
+            this.splitter15.BackColor = System.Drawing.Color.White;
+            this.splitter15.Location = new System.Drawing.Point(932, 19);
+            this.splitter15.Name = "splitter15";
+            this.splitter15.Size = new System.Drawing.Size(10, 25);
+            this.splitter15.TabIndex = 14;
+            this.splitter15.TabStop = false;
+            // 
+            // cmbBankaBilgisi
+            // 
+            this.cmbBankaBilgisi.DisplayMember = "BankaAdi";
+            this.cmbBankaBilgisi.Dock = System.Windows.Forms.DockStyle.Left;
+            this.cmbBankaBilgisi.FormattingEnabled = true;
+            this.cmbBankaBilgisi.Location = new System.Drawing.Point(811, 19);
+            this.cmbBankaBilgisi.Name = "cmbBankaBilgisi";
+            this.cmbBankaBilgisi.Size = new System.Drawing.Size(121, 23);
+            this.cmbBankaBilgisi.TabIndex = 13;
+            this.cmbBankaBilgisi.Text = "Banka Seçiniz";
+            this.cmbBankaBilgisi.ValueMember = "banka_id";
+            // 
+            // splitter12
+            // 
+            this.splitter12.BackColor = System.Drawing.Color.White;
+            this.splitter12.Location = new System.Drawing.Point(801, 19);
+            this.splitter12.Name = "splitter12";
+            this.splitter12.Size = new System.Drawing.Size(10, 25);
+            this.splitter12.TabIndex = 9;
+            this.splitter12.TabStop = false;
+            // 
+            // txtMektupNumarasi
+            // 
+            this.txtMektupNumarasi.Dock = System.Windows.Forms.DockStyle.Left;
+            this.txtMektupNumarasi.Location = new System.Drawing.Point(669, 19);
+            this.txtMektupNumarasi.Name = "txtMektupNumarasi";
+            this.txtMektupNumarasi.Size = new System.Drawing.Size(132, 23);
+            this.txtMektupNumarasi.TabIndex = 4;
+            this.txtMektupNumarasi.Text = "Mektup Numarası";
+            // 
+            // splitter11
+            // 
+            this.splitter11.BackColor = System.Drawing.Color.White;
+            this.splitter11.Location = new System.Drawing.Point(659, 19);
+            this.splitter11.Name = "splitter11";
+            this.splitter11.Size = new System.Drawing.Size(10, 25);
+            this.splitter11.TabIndex = 8;
+            this.splitter11.TabStop = false;
+            // 
+            // cmbTeminatTipi
+            // 
+            this.cmbTeminatTipi.DisplayMember = "ad";
+            this.cmbTeminatTipi.Dock = System.Windows.Forms.DockStyle.Left;
+            this.cmbTeminatTipi.FormattingEnabled = true;
+            this.cmbTeminatTipi.Location = new System.Drawing.Point(561, 19);
+            this.cmbTeminatTipi.Name = "cmbTeminatTipi";
+            this.cmbTeminatTipi.Size = new System.Drawing.Size(98, 23);
+            this.cmbTeminatTipi.TabIndex = 7;
+            this.cmbTeminatTipi.Text = "Teminat Tipi";
+            this.cmbTeminatTipi.ValueMember = "id";
+            // 
+            // splitter10
+            // 
+            this.splitter10.BackColor = System.Drawing.Color.White;
+            this.splitter10.Location = new System.Drawing.Point(551, 19);
+            this.splitter10.Name = "splitter10";
+            this.splitter10.Size = new System.Drawing.Size(10, 25);
+            this.splitter10.TabIndex = 6;
+            this.splitter10.TabStop = false;
+            // 
+            // cmbTeminatCikaranKurum
+            // 
+            this.cmbTeminatCikaranKurum.DisplayMember = "ad";
+            this.cmbTeminatCikaranKurum.Dock = System.Windows.Forms.DockStyle.Left;
+            this.cmbTeminatCikaranKurum.FormattingEnabled = true;
+            this.cmbTeminatCikaranKurum.Location = new System.Drawing.Point(338, 19);
+            this.cmbTeminatCikaranKurum.Name = "cmbTeminatCikaranKurum";
+            this.cmbTeminatCikaranKurum.Size = new System.Drawing.Size(213, 23);
+            this.cmbTeminatCikaranKurum.TabIndex = 5;
+            this.cmbTeminatCikaranKurum.Text = "Teminatın Çıktığı Kurum";
+            this.cmbTeminatCikaranKurum.ValueMember = "id";
+            // 
+            // splitter9
+            // 
+            this.splitter9.BackColor = System.Drawing.Color.White;
+            this.splitter9.Location = new System.Drawing.Point(328, 19);
+            this.splitter9.Name = "splitter9";
+            this.splitter9.Size = new System.Drawing.Size(10, 25);
+            this.splitter9.TabIndex = 4;
+            this.splitter9.TabStop = false;
+            // 
+            // cmbTeminatVerilenKurum
+            // 
+            this.cmbTeminatVerilenKurum.DisplayMember = "ad";
+            this.cmbTeminatVerilenKurum.Dock = System.Windows.Forms.DockStyle.Left;
+            this.cmbTeminatVerilenKurum.FormattingEnabled = true;
+            this.cmbTeminatVerilenKurum.Location = new System.Drawing.Point(115, 19);
+            this.cmbTeminatVerilenKurum.Name = "cmbTeminatVerilenKurum";
+            this.cmbTeminatVerilenKurum.Size = new System.Drawing.Size(213, 23);
+            this.cmbTeminatVerilenKurum.TabIndex = 3;
+            this.cmbTeminatVerilenKurum.Text = "Teminat Verilen Kurum";
+            this.cmbTeminatVerilenKurum.ValueMember = "id";
+            // 
+            // splitter8
+            // 
+            this.splitter8.BackColor = System.Drawing.Color.White;
+            this.splitter8.Location = new System.Drawing.Point(105, 19);
+            this.splitter8.Name = "splitter8";
+            this.splitter8.Size = new System.Drawing.Size(10, 25);
+            this.splitter8.TabIndex = 2;
+            this.splitter8.TabStop = false;
+            // 
+            // dateTeminatTarihi
+            // 
+            this.dateTeminatTarihi.Dock = System.Windows.Forms.DockStyle.Left;
+            this.dateTeminatTarihi.Format = System.Windows.Forms.DateTimePickerFormat.Short;
+            this.dateTeminatTarihi.Location = new System.Drawing.Point(3, 19);
+            this.dateTeminatTarihi.Name = "dateTeminatTarihi";
+            this.dateTeminatTarihi.Size = new System.Drawing.Size(102, 23);
+            this.dateTeminatTarihi.TabIndex = 0;
+            // 
+            // splitter16
+            // 
+            this.splitter16.BackColor = System.Drawing.Color.White;
+            this.splitter16.Location = new System.Drawing.Point(1076, 19);
+            this.splitter16.Name = "splitter16";
+            this.splitter16.Size = new System.Drawing.Size(10, 25);
+            this.splitter16.TabIndex = 15;
+            this.splitter16.TabStop = false;
             // 
             // evrakNumaraVerme
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.groupBox4);
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
@@ -300,6 +528,10 @@
             this.groupBox1.PerformLayout();
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
+            this.groupBox3.ResumeLayout(false);
+            this.groupBox3.PerformLayout();
+            this.groupBox4.ResumeLayout(false);
+            this.groupBox4.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -327,5 +559,24 @@
         private Label label1;
         private Splitter splitter7;
         private GroupBox groupBox3;
+        private GroupBox groupBox4;
+        private Splitter splitter8;
+        private DateTimePicker dateTeminatTarihi;
+        private ComboBox cmbTeminatVerilenKurum;
+        private Splitter splitter9;
+        private TextBox txtMektupNumarasi;
+        private Splitter splitter11;
+        private ComboBox cmbTeminatTipi;
+        private Splitter splitter10;
+        private ComboBox cmbTeminatCikaranKurum;
+        private Splitter splitter12;
+        private TextBox txtTeminatTutari;
+        private Button btnTeminatKaydet;
+        private Button btnBankaKaydet;
+        private Splitter splitter14;
+        private TextBox txtBankaUnvani;
+        private Splitter splitter15;
+        private ComboBox cmbBankaBilgisi;
+        private Splitter splitter16;
     }
 }

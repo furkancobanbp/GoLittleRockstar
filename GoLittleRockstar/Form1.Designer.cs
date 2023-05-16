@@ -94,6 +94,7 @@
             this.gridGRFOrt = new System.Windows.Forms.DataGridView();
             this.Column27 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.groupBox10 = new System.Windows.Forms.GroupBox();
+            this.button3 = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             this.groupBox9.SuspendLayout();
             this.groupBox6.SuspendLayout();
@@ -115,6 +116,7 @@
             // 
             // panel1
             // 
+            this.panel1.Controls.Add(this.button3);
             this.panel1.Controls.Add(this.groupBox9);
             this.panel1.Controls.Add(this.groupBox6);
             this.panel1.Controls.Add(this.splitter1);
@@ -792,6 +794,16 @@
             this.groupBox10.TabStop = false;
             this.groupBox10.Text = "Hava Durumu Veri Çekme";
             // 
+            // button3
+            // 
+            this.button3.Location = new System.Drawing.Point(72, 623);
+            this.button3.Name = "button3";
+            this.button3.Size = new System.Drawing.Size(75, 23);
+            this.button3.TabIndex = 9;
+            this.button3.Text = "button3";
+            this.button3.UseVisualStyleBackColor = true;
+            this.button3.Click += new System.EventHandler(this.button3_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -896,5 +908,6 @@
         private Button button1;
         private Button button2;
         private GroupBox groupBox10;
+        private Button button3;
     }
 }

@@ -270,15 +270,15 @@ namespace GoLittleRockstar
             gridGRFOrt.DataSource = ort;
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private async void button1_Click(object sender, EventArgs e)
         {
-            GetData(dateBaslangicTarihi.Value, dateBitisTarihi.Value, "forecast");
+            await GetData(dateBaslangicTarihi.Value, dateBitisTarihi.Value, "forecast");
         }
-        private void button2_Click(object sender, EventArgs e)
+        private async void button2_Click(object sender, EventArgs e)
         {
-            GetData(dateBaslangicTarihi.Value, dateBitisTarihi.Value, "historic");
+            await GetData(dateBaslangicTarihi.Value, dateBitisTarihi.Value, "historic");
         }
-        private async void GetData(DateTime dateBaslangicTarihi, DateTime dateBitisTarihi, string Type)
+        private async Task GetData(DateTime dateBaslangicTarihi, DateTime dateBitisTarihi, string Type)
         {
             List<Root> RootData = new List<Root>();
             List<object> Data = new List<object>();
@@ -316,24 +316,76 @@ namespace GoLittleRockstar
             }
 
             using (var contex = new context())
-            {
+            {                
+
                 foreach (object i in Data)
                 {
                     if (Type == "forecast")
-                    {
+                    {                        
                         await contex.tblForecastWeatherData.AddRangeAsync((MyForecastData)i);
                     }
                     else if (Type == "historic")
-                    {
+                    {                        
                         await contex.tblHistoricWeatherData.AddRangeAsync((MyHistoricData)i);
                     }
-                    await contex.SaveChangesAsync();
-                    contex.ChangeTracker.Clear();
                 }
 
+                await contex.SaveChangesAsync();
+                contex.ChangeTracker.Clear();
+                Data.Clear();
+                RootData.Clear();
+                sehirListesi.Clear();
                 MessageBox.Show("Ýþlem Tamam");
             }
 
+        }
+
+        private async void button3_Click(object sender, EventArgs e)
+        {
+            List<Root> RootData = new List<Root>();
+            List<object> Data = new List<object>();
+
+
+            using (var contex = new context())
+            {
+                var Sql = "select id, \"SehirAdi\" name from \"tblSehir\"";
+                var Liste = await contex.anaSet.FromSqlRaw(Sql).ToListAsync();
+                sehirListesi.AddRange(Liste);
+            }
+
+            foreach (clsAna i in sehirListesi)
+            {
+                RootData.Add(api.GecmisHavaDurumu(dateBaslangicTarihi.Value, dateBitisTarihi.Value, i.name));
+            }
+            
+            using (var contex = new context())
+            {
+                foreach (Root i in RootData)
+                {
+                    var coordinate = await contex.tblSehir.FirstOrDefaultAsync(j => j.SehirAdi == i.location.region);
+
+                    if (coordinate != null)
+                    {
+                        coordinate.lat = i.location.lat;
+                        coordinate.lon = i.location.lon;
+                    }
+                    else
+                    {
+                        coordinate = await contex.tblSehir.FirstOrDefaultAsync(j => j.SehirAdi == i.location.name);
+
+                        if (coordinate != null)
+                        {
+                            coordinate.lat = i.location.lat;
+                            coordinate.lon = i.location.lon;
+                        }
+
+                    }
+                                      
+                }
+                await contex.SaveChangesAsync();
+
+                MessageBox.Show("Koordinatlar alýndý");
+            }
         }
     }
 
