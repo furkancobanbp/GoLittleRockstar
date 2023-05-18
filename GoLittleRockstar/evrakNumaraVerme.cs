@@ -1,10 +1,13 @@
-﻿using GoLittleRockstar.Model;
+﻿using GoLittleRockstar.Functions;
+using GoLittleRockstar.Model;
 using Microsoft.EntityFrameworkCore;
 
 namespace GoLittleRockstar
 {
     public partial class evrakNumaraVerme : UserControl
     {
+        public queries query = new queries();
+
         public List<clsKurumSirket> kurumBilgisi;
         public List<clsKurumSirket> sirketBilgisi;
         public List<clsKurumSirket> teminatKurumBilgisi;
@@ -12,14 +15,18 @@ namespace GoLittleRockstar
         public List<clsBanka> bankaBilgisi;
 
         public List<clsKurumSirket> teminatTipBilgisi;
+        public List<clsKurumSirket> teminatTurBilgisi;
+
         public clsKurum kurum;
         public clsSirket sirket;
-        public clsKurumSirket kurumSirket;
+        public clsKurumSirket kurumSirket;       
         public clsEvrak evrak;
         public clsTeminat teminat;
         public clsBanka banka;
 
         public bool kurulusUpdate = true;
+
+        
         public evrakNumaraVerme()
         {
             InitializeComponent();
@@ -38,6 +45,7 @@ namespace GoLittleRockstar
             cmbTeminatCikaranKurum.DataBindings.Add("SelectedValue", teminat, "sirket_id", true, DataSourceUpdateMode.OnPropertyChanged);
             cmbTeminatTipi.DataBindings.Add("SelectedValue", teminat, "tip_id", true, DataSourceUpdateMode.OnPropertyChanged);
             cmbBankaBilgisi.DataBindings.Add("SelectedValue", teminat, "banka_id", true, DataSourceUpdateMode.OnPropertyChanged);
+            cmbTeminatTur.DataBindings.Add("SelectedValue", teminat, "tur_id", true, DataSourceUpdateMode.OnPropertyChanged);
 
             dateYaziTarihi.DataBindings.Add("Value", evrak, "Tarih", true, DataSourceUpdateMode.OnPropertyChanged);
             dateTeminatTarihi.DataBindings.Add("Value", teminat, "Tarih", true, DataSourceUpdateMode.OnPropertyChanged);
@@ -49,8 +57,10 @@ namespace GoLittleRockstar
             txtMektupNumarasi.DataBindings.Add("Text", teminat, "MektupNo", true, DataSourceUpdateMode.OnPropertyChanged);
             txtTeminatTutari.DataBindings.Add("Text", teminat, "TeminatTutari", true, DataSourceUpdateMode.OnPropertyChanged);
             txtBankaUnvani.DataBindings.Add("Text", banka, "BankaAdi", true, DataSourceUpdateMode.OnPropertyChanged);
+            txtTeminatHk.DataBindings.Add("Text", teminat, "teminatBilgi", true, DataSourceUpdateMode.OnPropertyChanged);
 
-            UpdateForm();
+            kurulusUpdate = true;
+            await UpdateForm();
 
         }
         private async void button1_Click(object sender, EventArgs e)
@@ -92,7 +102,7 @@ namespace GoLittleRockstar
             }
             kurulusUpdate = true;
             txtUnvan.Clear();
-            UpdateForm();
+            await UpdateForm();
         }
 
         private async void btnKaydet_Click(object sender, EventArgs e)
@@ -108,15 +118,15 @@ namespace GoLittleRockstar
                 evrakNumara = await contex.tblEvrak.FromSqlRaw(Sql).FirstOrDefaultAsync();
             }
 
-            MessageBox.Show("Kayıt Tamamlandı. Numaranız: " 
-                + evrakNumara.sirket_id + "." + DateTime.Now.Year + "." 
+            MessageBox.Show("Kayıt Tamamlandı. Numaranız: "
+                + evrakNumara.sirket_id + "." + DateTime.Now.Year + "."
                 + evrakNumara.evrak_id + "", "Uyarı", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
             label1.Text = "" + evrakNumara.sirket_id + "." + DateTime.Now.Year + "." + evrakNumara.evrak_id + "";
 
             evrak.evrak_id = 0;
 
-            nullText();
+            await nullText();
 
         }
         public async Task UpdateForm()
@@ -127,6 +137,7 @@ namespace GoLittleRockstar
 
             teminatSirketBilgisi = new List<clsKurumSirket>();
             teminatKurumBilgisi = new List<clsKurumSirket>();
+            teminatTurBilgisi = new List<clsKurumSirket>();
 
             teminatTipBilgisi = new List<clsKurumSirket>();
 
@@ -138,19 +149,29 @@ namespace GoLittleRockstar
                     var SirketList = await contex.kurumSirket.FromSqlRaw(Sql).AsNoTracking().ToListAsync();
                     sirketBilgisi.AddRange(SirketList);
                     teminatSirketBilgisi.AddRange(SirketList);
+                    teminatSirketBilgisi.Add(new clsKurumSirket { id = -1, ad = "Hepsi"});
 
                     Sql = "select \"kurum_id\" id,\"kurumAdi\" ad from \"tblKurumlar\"";
                     var KurumList = await contex.kurumSirket.FromSqlRaw(Sql).AsNoTracking().ToListAsync();
                     kurumBilgisi.AddRange(KurumList);
                     teminatKurumBilgisi.AddRange(KurumList);
+                    teminatKurumBilgisi.Add(new clsKurumSirket { id = -1, ad = "Hepsi" });
 
                     Sql = "select \"tip_id\" id,\"TipAdi\" ad from \"tblTeminatTip\"";
                     var TipList = await contex.kurumSirket.FromSqlRaw(Sql).AsNoTracking().ToListAsync();
                     teminatTipBilgisi.AddRange(TipList);
+                    teminatTipBilgisi.Add(new clsKurumSirket { id = -1, ad = "Hepsi" });
+
 
                     Sql = "select * from \"tblBankaBilgisi\"";
                     var BankaList = await contex.tblBankaBilgisi.FromSqlRaw(Sql).AsNoTracking().ToListAsync();
                     bankaBilgisi.AddRange(BankaList);
+                    bankaBilgisi.Add(new clsBanka { banka_id = -1, BankaAdi = "Hepsi" });
+
+                    Sql = "select \"tur_id\" id,\"TurAdi\" ad from \"tblTeminatTur\"";
+                    var TurList = await contex.kurumSirket.FromSqlRaw(Sql).AsNoTracking().ToListAsync();
+                    teminatTurBilgisi.AddRange(TurList);
+                    teminatTurBilgisi.Add(new clsKurumSirket { id = -1, ad = "Hepsi" });
 
                 }
 
@@ -161,6 +182,7 @@ namespace GoLittleRockstar
             cmbTeminatVerilenKurum.DataSource = teminatKurumBilgisi;
             cmbTeminatCikaranKurum.DataSource = teminatSirketBilgisi;
             cmbTeminatTipi.DataSource = teminatTipBilgisi;
+            cmbTeminatTur.DataSource = teminatTurBilgisi;
 
             cmbBankaBilgisi.DataSource = bankaBilgisi;
 
@@ -182,6 +204,8 @@ namespace GoLittleRockstar
             txtTeminatTutari.Text = "Teminat Tutarını Giriniz";
             cmbBankaBilgisi.Text = "Banka Seçimi Yapınız";
             txtBankaUnvani.Text = "Banka Unvanı Giriniz";
+            txtTeminatHk.Text = "Teminat Hakkında Bilgi Giriniz";
+            cmbTeminatTur.Text = "Teminat Türünü Seçiniz";
         }
 
         private async void btnTeminatKaydet_Click(object sender, EventArgs e)
@@ -200,20 +224,59 @@ namespace GoLittleRockstar
         }
 
         private async void btnBankaKaydet_Click(object sender, EventArgs e)
-        {            
+        {
             using (var contex = new context())
             {
                 contex.tblBankaBilgisi.Add(banka);
-                await contex.SaveChangesAsync(); 
+                await contex.SaveChangesAsync();
             }
 
-            
             MessageBox.Show("Kayıt Tamamlandı");
 
             kurulusUpdate = true;
             await UpdateForm();
-            banka.banka_id = 0;           
-            
+            banka.banka_id = 0;
+
+        }
+
+        private async void btnTeminatSorgula_Click(object sender, EventArgs e)
+        {
+            String Query = " Where \"tblVerilenTeminatlar\".\"MektupNo\" like '%" + txtMektupNumarasi.Text + "%'"; ;
+            String basTar = dateTeminatTarihi.Value.ToShortDateString();
+            String bitTar = dateTeminatBitTar.Value.ToShortDateString();
+
+            if (!(dateTeminatTarihi == null) && !(dateTeminatBitTar == null))
+            {
+                Query += " and \"tblVerilenTeminatlar\".\"Tarih\" between '"+basTar+"' and '"+bitTar+"' ";
+            }           
+            if (!(Convert.ToInt32(cmbBankaBilgisi.SelectedValue) == -1))
+            {
+                Query += " and \"tblVerilenTeminatlar\".\"banka_id\" = "+cmbBankaBilgisi.SelectedValue+"";
+            }
+            if (!(Convert.ToInt32(cmbTeminatCikaranKurum.SelectedValue) == -1))
+            {
+                Query += " and \"tblVerilenTeminatlar\".\"sirket_id\" = " + cmbTeminatCikaranKurum.SelectedValue + "";
+            }
+            if (!(Convert.ToInt32(cmbTeminatVerilenKurum.SelectedValue) == -1))
+            {
+                Query += " and \"tblVerilenTeminatlar\".\"kurum_id\" = " + cmbTeminatVerilenKurum.SelectedValue + "";
+            }
+            if (!(Convert.ToInt32(cmbTeminatTipi.SelectedValue) == -1))
+            {
+                Query += " and \"tblVerilenTeminatlar\".\"tip_id\" = " + cmbTeminatTipi.SelectedValue + "";
+            }
+            if (!(Convert.ToInt32(cmbTeminatTur.SelectedValue) == -1))
+            {
+                Query += " and \"tblVerilenTeminatlar\".\"tur_id\" = " + cmbTeminatTipi.SelectedValue + "";
+            }
+            if(chkTumunuListele.CheckState == CheckState.Checked)
+            {
+                Query = "";
+            }
+
+            gridTeminatTablosu.DataSource = query.TeminatBilgisiAl(Query);
+
+            await nullText();
         }
     }
 }

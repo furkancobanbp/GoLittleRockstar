@@ -96,7 +96,7 @@
             this.tabPage3.Controls.Add(this.evrakNumaraVerme1);
             this.tabPage3.Location = new System.Drawing.Point(4, 24);
             this.tabPage3.Name = "tabPage3";
-            this.tabPage3.Size = new System.Drawing.Size(192, 72);
+            this.tabPage3.Size = new System.Drawing.Size(1233, 582);
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "Evrak Numarası Verme-Listeleme";
             this.tabPage3.UseVisualStyleBackColor = true;
@@ -106,7 +106,7 @@
             this.evrakNumaraVerme1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.evrakNumaraVerme1.Location = new System.Drawing.Point(0, 0);
             this.evrakNumaraVerme1.Name = "evrakNumaraVerme1";
-            this.evrakNumaraVerme1.Size = new System.Drawing.Size(192, 72);
+            this.evrakNumaraVerme1.Size = new System.Drawing.Size(1233, 582);
             this.evrakNumaraVerme1.TabIndex = 0;
             // 
             // Main

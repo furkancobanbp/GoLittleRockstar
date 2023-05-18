@@ -27,6 +27,7 @@ namespace GoLittleRockstar
         public DbSet<clsSehir> tblSehir { get; set; }
         public DbSet<clsTeminat> tblVerilenTeminatlar { get; set; }
         public DbSet<clsBanka> tblBankaBilgisi { get; set; }
+        public DbSet<clsTeminatListe> teminatListe { get; set; }
 
 
 

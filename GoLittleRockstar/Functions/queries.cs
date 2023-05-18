@@ -84,5 +84,32 @@ namespace GoLittleRockstar.Functions
                 return contex.botasTarifeSource.FromSqlRaw(Sql).ToList();
             }
         }
+        public List<clsTeminatListe> TeminatBilgisiAl(String Query)
+        {
+            using (var contex = new context())
+            {
+                var Sql = "select " +
+                "\"tblVerilenTeminatlar\".\"Tarih\", " +
+                "\"tblVerilenTeminatlar\".\"teminatBilgi\", " +
+                "\"tblVerilenTeminatlar\".\"MektupNo\", " +
+                "\"tblTeminatTip\".\"TipAdi\", " +
+                 "\"tblTeminatTur\".\"TurAdi\", " +
+                "\"tblBankaBilgisi\".\"BankaAdi\", " +
+                "\"tblKurumlar\".\"kurumAdi\", " +
+                "\"tblSirket\".\"sirketAdi\", " +
+                "\"tblVerilenTeminatlar\".\"TeminatTutari\" " +
+                "from \"tblVerilenTeminatlar\" " +
+                "left outer join \"tblBankaBilgisi\" on \"tblVerilenTeminatlar\".banka_id = \"tblBankaBilgisi\".banka_id " +
+                "left outer join \"tblKurumlar\" on \"tblVerilenTeminatlar\".kurum_id = \"tblKurumlar\".kurum_id " +
+                "left outer join \"tblSirket\" on \"tblVerilenTeminatlar\".sirket_id = \"tblSirket\".sirket_id " +
+                "left outer join \"tblTeminatTur\" on \"tblVerilenTeminatlar\".tur_id = \"tblTeminatTur\".tur_id " +
+                "left outer join \"tblTeminatTip\" on \"tblVerilenTeminatlar\".tip_id = \"tblTeminatTip\".tip_id " + Query +
+                " order by \"tblKurumlar\".\"kurumAdi\" asc";
+
+                return contex.teminatListe.FromSqlRaw(Sql).ToList();
+            }
+
+
+        } 
     }
 }
