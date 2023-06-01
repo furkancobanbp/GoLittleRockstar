@@ -11,7 +11,7 @@ using System.Net.Http;
 using System.Globalization;
 using Newtonsoft.Json.Converters;
 using GoLittleRockstar.Model;
-
+using System.Xml.Serialization;
 
 namespace GoLittleRockstar.Functions
 {
@@ -20,10 +20,7 @@ namespace GoLittleRockstar.Functions
         public String Url = "https://api.epias.com.tr/epias/exchange/transparency";
         HttpClient httpClient = new HttpClient();
 
-        public String evdsApiKey = "wo1MW8BA1X";
-        public String WeatherApiKey = "378040fe1f0f427184983253230604";
-        public String WeatherApiBaseUrl = "http://api.weatherapi.com/v1";
-        public String alphaVantageApiKey = "BBCEQDGLJVET843A";
+        
 
         enum period
         {
@@ -261,6 +258,30 @@ namespace GoLittleRockstar.Functions
             }
 
             return dataList;
+        }
+        public async Task<PublicationMarketDocument> EntsoMarketData(string domain, DateTime basTar, DateTime bitTar)
+        {
+            String baslangicTarih = basTar.ToString("yyyyMMddHHmm");
+            String bitisTarih = bitTar.ToString("yyyyMMddHHmm");
+            var response = await httpClient.GetAsync(
+                "https://web-api.tp.entsoe.eu/api?securityToken=" +
+                "" + entsoeApiKey + "" +
+                "&documentType=A44&in_Domain=" + domain + "" +
+                "&out_Domain=" + domain + "" +
+                "&periodStart=" + baslangicTarih + "" +
+                "&periodEnd=" + bitisTarih + "").Result.Content.ReadAsStringAsync();
+
+            PublicationMarketDocument myDeserializeData;
+
+            using (StringReader reader = new StringReader(response))
+            {
+                XmlSerializer serializer = new XmlSerializer(typeof(PublicationMarketDocument));
+                myDeserializeData = (PublicationMarketDocument)serializer.Deserialize(reader);
+            }
+
+            return myDeserializeData;
+
+            
         }
 
 

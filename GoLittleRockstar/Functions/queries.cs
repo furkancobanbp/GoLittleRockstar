@@ -68,17 +68,17 @@ namespace GoLittleRockstar.Functions
 
             using (var contex = new context())
             {
-                var Sql = "Select "+
+                var Sql = "Select " +
                                 "a.\"Tarih\", " +
-                                " b.\"tarifeAdi\", " +	                            
-	                            "a.\"tarifeFiyat\", "+
+                                " b.\"tarifeAdi\", " +
+                                "a.\"tarifeFiyat\", " +
                                 "a.\"otvFiyat\" " +
                                 "from " +
-                                "\"tblBotasTarife\" a, "+
-	                            "\"tblBotasTarifeTipi\" b " +
-                                "where a.tarife_id = b.tarife_id "+
-                                "and a.\"Tarih\" between '"+baslangicTarihi+"' " +
-                                "and '"+bitisTarihi+"' "+
+                                "\"tblBotasTarife\" a, " +
+                                "\"tblBotasTarifeTipi\" b " +
+                                "where a.tarife_id = b.tarife_id " +
+                                "and a.\"Tarih\" between '" + baslangicTarihi + "' " +
+                                "and '" + bitisTarihi + "' " +
                                 "order by b.\"tarifeAdi\", a.\"Tarih\"";
 
                 return contex.botasTarifeSource.FromSqlRaw(Sql).ToList();
@@ -108,8 +108,120 @@ namespace GoLittleRockstar.Functions
 
                 return contex.teminatListe.FromSqlRaw(Sql).ToList();
             }
+        }
+        public List<clsGirisKontrol> GirisBilgiAl(DateTime BasTar, DateTime BitTar, int calismaDonemId)
+        {
+            String BaslangicTarihi = BasTar.ToShortDateString();
+            String BitisTarihi = BitTar.ToShortDateString();
 
+            using (var contex = new context())
+            {
+                var Sql = "select " +
+                          "\"tblKisi\".\"KisiAdi\", " +
+                          "\"tblIslemTur\".\"islemAdi\", " +
+                           "Count(\"tblKisi\".\"KisiAdi\") " +
+                            "from \"tblGirisSiraKontrol\" " +
+                            "right join \"tblKisi\" on \"tblGirisSiraKontrol\".kisi_id = \"tblKisi\".kisi_id " +
+                            "inner join \"tblIslemTur\" on \"tblGirisSiraKontrol\".islem_id = \"tblIslemTur\".islem_id " +
+                            "where \"tblGirisSiraKontrol\".\"Tarih\" between '" + BaslangicTarihi + "' and '" + BitisTarihi + "' " +
+                            "and \"tblGirisSiraKontrol\".calisma_id = " + calismaDonemId + "" +
+                            " group by \"tblKisi\".\"KisiAdi\", \"tblIslemTur\".\"islemAdi\" " +
+                            "order by \"tblKisi\".\"KisiAdi\", \"tblIslemTur\".\"islemAdi\" asc";
 
-        } 
+                return contex.girisKontrol.FromSqlRaw(Sql).ToList();
+            }
+        }
+        public List<TumGirisTablo> TumGirisDataAl(DateTime BasTar, DateTime BitTar)
+        {
+            String BaslangicTarihi = BasTar.ToShortDateString();
+            String BitisTarihi = BitTar.ToShortDateString();
+
+            using (var contex = new context())
+            {
+                var Sql = "select " +
+                            "\"tblGirisSiraKontrol\".\"Tarih\"," +
+                            "\"tblKisi\".\"KisiAdi\"," +
+                            "\"tblIslemTur\".\"islemAdi\", " +
+                            "\"tblCalismaDonemi\".\"CalismaAdi\" " +
+                            "from " +
+                            "\"tblGirisSiraKontrol\" " +
+                            "left join \"tblKisi\" on \"tblGirisSiraKontrol\".kisi_id = \"tblKisi\".kisi_id " +
+                            "left join \"tblIslemTur\" on \"tblGirisSiraKontrol\".islem_id = \"tblIslemTur\".islem_id " +
+                            "left join \"tblCalismaDonemi\" on \"tblGirisSiraKontrol\".calisma_id = \"tblCalismaDonemi\".calisma_id " +
+                            "where \"tblGirisSiraKontrol\".\"Tarih\" between '" + BaslangicTarihi + "' and '" + BitisTarihi + "' " +
+                            "order by \"tblGirisSiraKontrol\".\"Tarih\" desc ";
+
+                return contex.TumGirisTablos.FromSqlRaw(Sql).ToList();
+            }
+
+        }
+        public List<OtoSiraVericiSinif> SiraVeriAl(DateTime BasTar, DateTime BitTar, int calismaDonemId)
+        {
+            String BaslangicTarihi = BasTar.ToShortDateString();
+            String BitisTarihi = BitTar.ToShortDateString();
+
+            using (var contex = new context())
+            {
+                var Sql = "select \"tblKisi\".\"KisiAdi\", " +
+                            "Count(\"tblGirisSiraKontrol\".calisma_id) " +
+                            "from \"tblGirisSiraKontrol\" " +
+                            "right join \"tblKisi\" " +
+                            "on \"tblGirisSiraKontrol\".kisi_id = \"tblKisi\".kisi_id " +
+                            "and \"tblGirisSiraKontrol\".calisma_id = " + calismaDonemId + " " +
+                            "and \"tblGirisSiraKontrol\".\"Tarih\" " +
+                            "between '" + BaslangicTarihi + "' and '" + BitisTarihi + "' " +
+                            "group by \"tblKisi\".\"KisiAdi\" " +
+                            "order by \"tblKisi\".\"KisiAdi\" asc ";
+
+                return contex.SiraVerici.FromSqlRaw(Sql).ToList();
+            }
+        }
+        public List<clsGirisInceleme> GirisVeriAl(DateTime BasTar, DateTime BitTar, int calismaDonemId)
+        {
+
+            using (context contex = new())
+            {
+                var Sql = "SELECT " +
+                            "\"tblKisi\".\"KisiAdi\", " +
+                            "\"tblIslemTur\".\"islemAdi\", " +
+                            "SUM(EXTRACT " +
+                            "(DAY FROM age(\"tblGirisDetayTablo\".\"IslemBitisTarihi\", \"tblGirisDetayTablo\".\"IslemBaslangicTarihi\")) * 24 + " +
+                            "EXTRACT " +
+                            "(HOUR FROM age(\"tblGirisDetayTablo\".\"IslemBitisTarihi\", \"tblGirisDetayTablo\".\"IslemBaslangicTarihi\"))) AS Saat, " +
+                            "SUM(EXTRACT " +
+                            "(MINUTE FROM age(\"tblGirisDetayTablo\".\"IslemBitisTarihi\", \"tblGirisDetayTablo\".\"IslemBaslangicTarihi\"))) AS Dakika " +
+                            "FROM \"tblGirisDetayTablo\" " +
+                            "LEFT JOIN \"tblKisi\" on \"tblGirisDetayTablo\".kisi_id = \"tblKisi\".kisi_id " +
+                            "LEFT JOIN \"tblIslemTur\" on \"tblGirisDetayTablo\".islem_id = \"tblIslemTur\".islem_id " +
+                            "WHERE \"tblGirisDetayTablo\".calisma_id = " + calismaDonemId + "" +
+                            "AND \"tblGirisDetayTablo\".\"IslemBaslangicTarihi\" >= '" + BasTar + "' " +
+                            "AND \"tblGirisDetayTablo\".\"IslemBitisTarihi\" <= '" + BitTar + "' " +
+                            "AND \"tblGirisDetayTablo\".\"islem_id\" = 2 " +
+                            "group by " +
+                            "\"tblKisi\".\"KisiAdi\", " +                            
+                            "\"tblIslemTur\".\"islemAdi\" "+               
+                            "UNION ALL "+
+                            "SELECT "+
+                            "\"tblKisi\".\"KisiAdi\", "+ 
+                            "\"tblIslemTur\".\"islemAdi\", " + 
+                            "count(\"tblIslemTur\".islem_id) AS Saat, "+
+                            "0 AS Dakika "+
+                            "FROM "+ 
+                            "\"tblGirisDetayTablo\" "+
+                            "LEFT JOIN \"tblKisi\" on \"tblGirisDetayTablo\".kisi_id = \"tblKisi\".kisi_id " +
+                            "LEFT JOIN \"tblIslemTur\" on \"tblGirisDetayTablo\".islem_id = \"tblIslemTur\".islem_id " +
+                            "WHERE \"tblGirisDetayTablo\".calisma_id = " + calismaDonemId + "" +
+                            "AND \"tblGirisDetayTablo\".\"IslemBaslangicTarihi\" >= '" + BasTar + "' " +
+                            "AND \"tblGirisDetayTablo\".\"IslemBitisTarihi\" <= '" + BitTar + "' " +
+                            "AND \"tblGirisDetayTablo\".\"islem_id\" = 1 " +
+                            "group by " +
+                            "\"tblKisi\".\"KisiAdi\", " +                            
+                            "\"tblIslemTur\".\"islemAdi\" ";
+                
+
+                return contex.giris_inceleme.FromSqlRaw(Sql).ToList();
+            }
+
+        }
     }
 }

@@ -28,6 +28,19 @@ namespace GoLittleRockstar
         public DbSet<clsTeminat> tblVerilenTeminatlar { get; set; }
         public DbSet<clsBanka> tblBankaBilgisi { get; set; }
         public DbSet<clsTeminatListe> teminatListe { get; set; }
+        public DbSet<clsKisi> tblKisi { get; set; }
+        public DbSet<clsCalismaDonemi> tblCalismaDonemi { get; set; }
+        public DbSet<clsGirisYukle> tblGirisSiraKontrol { get; set; }
+        public DbSet<clsGirisKontrol> girisKontrol { get; set; }
+        public DbSet<clsIslemTuru> tblIslemTur { get; set; }
+        public DbSet<TumGirisTablo> TumGirisTablos { get; set; }
+        public DbSet<OtoSiraVericiSinif> SiraVerici { get; set; }
+        public DbSet <clsGirisDetay> tblGirisDetayTablo { get; set; }
+        public DbSet <clsGirisInceleme> giris_inceleme { get; set; }
+        public DbSet <UlkeBilgi> tblYurtDisiPiyasaBilgi { get; set; }
+        public DbSet <FiyatBilgi> tblYurtDisiElektrikFiyatlari { get; set; }
+
+
 
 
 
