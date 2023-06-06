@@ -278,13 +278,8 @@ namespace GoLittleRockstar.Functions
                 XmlSerializer serializer = new XmlSerializer(typeof(PublicationMarketDocument));
                 myDeserializeData = (PublicationMarketDocument)serializer.Deserialize(reader);
             }
-
             return myDeserializeData;
-
-            
         }
-
-
     }
 
 }

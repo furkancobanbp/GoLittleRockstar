@@ -16,7 +16,6 @@ namespace GoLittleRockstar.Model
         {
             InitializeComponent();
         }
-
         private async void controlGirisDetayEkrani_Load(object sender, EventArgs e)
         {
             KisiListe = new();
@@ -50,7 +49,6 @@ namespace GoLittleRockstar.Model
             txtAciklama.DataBindings.Add("Text", girisYukle, "Aciklama", true, DataSourceUpdateMode.OnPropertyChanged);
 
         }
-
         private void btnKaydet_Click(object sender, EventArgs e)
         {
             DateTime BasTar = new DateTime(dateIslemBaslangicTarihi.Value.Year, dateIslemBaslangicTarihi.Value.Month, dateIslemBaslangicTarihi.Value.Day, (int)numericBaslangicSaat.Value, (int)numericBaslangicDakika.Value, 0, 0);
@@ -102,7 +100,6 @@ namespace GoLittleRockstar.Model
             gridHaftaIci.DataSource = HaftaIci;
             gridHaftaSonu.DataSource = HaftaSonu;
         }
-
         private void btnAralikSorgula_Click(object sender, EventArgs e)
         {
             List<clsGirisInceleme> HaftaIci = new List<clsGirisInceleme>();
@@ -117,7 +114,6 @@ namespace GoLittleRockstar.Model
             gridHaftaIci.DataSource = HaftaIci;
             gridHaftaSonu.DataSource = HaftaSonu;
         }
-
         private void btnBayramSorgula_Click(object sender, EventArgs e)
         {
             List<clsGirisInceleme> Bayram = new List<clsGirisInceleme>();
@@ -128,9 +124,7 @@ namespace GoLittleRockstar.Model
             Bayram = query.GirisVeriAl(BasTar, BitTar, 3);
 
             gridBayram.DataSource = Bayram;
-
         }
-
         private void cmbIslemTur_SelectedIndexChanged(object sender, EventArgs e)
         {
             txtAciklama.Enabled = true;
@@ -147,10 +141,21 @@ namespace GoLittleRockstar.Model
             List<FiyatBilgi> FiyatData = new();
             PublicationMarketDocument doc = new();
 
+            DateTime BasTar = new DateTime(
+                dateIslemBaslangicTarihi.Value.Year,
+                dateIslemBaslangicTarihi.Value.Month,
+                dateIslemBaslangicTarihi.Value.Day,
+                0,
+                0,
+                0);
 
-
-            DateTime BasTar = new DateTime(2023, 05, 31, 22, 0, 0);
-            DateTime BitTar = new DateTime(2023, 06, 01, 22, 0, 0);
+            DateTime BitTar = new DateTime(
+                dateIslemBitisTarihi.Value.Year,
+                dateIslemBitisTarihi.Value.Month,
+                dateIslemBitisTarihi.Value.Day,
+                1,
+                0,
+                0);
 
             using (context context = new())
             {
@@ -158,49 +163,61 @@ namespace GoLittleRockstar.Model
                 var UlkeList = await context.tblYurtDisiPiyasaBilgi.FromSqlRaw(Sql).AsNoTracking().ToListAsync();
                 PiyasaBilgi.AddRange(UlkeList);
 
+
                 foreach (UlkeBilgi i in PiyasaBilgi)
                 {
                     string MarketCode = i.ApiKodu;
                     doc = await api.EntsoMarketData(MarketCode, BasTar, BitTar);
 
-                    foreach (TimeSeries j in doc.TimeSeries)
+                    try
                     {
-                        foreach (Point k in j.Period.Point)
+                        foreach (TimeSeries j in doc.TimeSeries)
                         {
-                            string dateString = j.Period.TimeInterval.Start.Substring(0, 10);
-                            string format = "yyyy-MM-dd";
-                            DateTime Date = DateTime.ParseExact(dateString, format, null).AddDays(1);
-                            TimeSpan timeValue = new();                           
-
-                            if (!(j.Period.Resolution == "PT60M"))
+                            foreach (Point k in j.Period.Point)
                             {
-                                int timeData = k.Position;
+                                string dateString = j.Period.TimeInterval.Start.Substring(0, 10);
+                                string format = "yyyy-MM-dd";
+                                DateTime Date = DateTime.ParseExact(dateString, format, null).AddDays(1);
+                                TimeSpan timeValue = new();
 
-                                if (j.Period.Resolution == "PT15M")
+                                if (!(j.Period.Resolution == "PT60M"))
                                 {
-                                    timeValue = TimeSpan.FromMinutes(timeData * 15);
+                                    int timeData = k.Position;
+
+                                    if (j.Period.Resolution == "PT15M")
+                                    {
+                                        timeValue = TimeSpan.FromMinutes(timeData * 15);
+
+                                    }
+                                    else if (j.Period.Resolution == "PT30M")
+                                    {
+                                        timeValue = TimeSpan.FromMinutes(timeData * 30);
+                                    }
+
+                                    FiyatBilgi Fiyat = new FiyatBilgi(Date, timeValue, i.piyasa_id, j.Period.Resolution, k.PriceAmount);
+                                    FiyatData.Add(Fiyat);
 
                                 }
-                                else if (j.Period.Resolution == "PT30M")
+                                else
                                 {
-                                    timeValue = TimeSpan.FromMinutes(timeData * 30);
+                                    timeValue = TimeSpan.FromHours(k.Position - 1);
+
+                                    FiyatBilgi Fiyat = new FiyatBilgi(Date, timeValue, i.piyasa_id, j.Period.Resolution, k.PriceAmount);
+                                    FiyatData.Add(Fiyat);
                                 }
-
-                                FiyatBilgi Fiyat = new FiyatBilgi(Date, timeValue, i.piyasa_id, j.Period.Resolution, k.PriceAmount);
-                                FiyatData.Add(Fiyat);
-                            }
-                            else
-                            {
-                                timeValue = TimeSpan.FromHours(k.Position - 1);
-
-                                FiyatBilgi Fiyat = new FiyatBilgi(Date, timeValue, i.piyasa_id, j.Period.Resolution, k.PriceAmount);
-                                FiyatData.Add(Fiyat);
                             }
                         }
+                    }
+                    catch
+                    {
+                        Console.WriteLine(i.PiyasaAdi + " Ait Veri Alınırken Hata Oluştu");
+                        continue;
                     }
                 }
                 await context.tblYurtDisiElektrikFiyatlari.AddRangeAsync(FiyatData);
                 await context.SaveChangesAsync();
+
+                MessageBox.Show("Yurt Dışı Verileri Çekildi");
             }
 
         }
